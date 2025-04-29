@@ -275,24 +275,6 @@ resource "aws_security_group" "allow_all" {
 }
 
 // REVISAR!!!
-//  Gateway Load Balancer on FGT VPC to two FGTs
-resource "aws_lb" "gateway_lb" {
-  name                             = "gatewaylb"
-  load_balancer_type               = "gateway"
-  enable_cross_zone_load_balancing = "true"
-
-  subnet_mapping {
-    subnet_id = aws_subnet.privatesubnetaz1.id
-  }
-
-  subnet_mapping {
-    subnet_id = aws_subnet.privatesubnetaz2.id
-  }
-
-  tags = {
-    Environment = "terraform sample"
-  }
-}
 
 //  Gateway Load Balancer on FGT VPC to two FGTs
 resource "aws_lb" "gateway_lb" {
@@ -336,15 +318,15 @@ resource "aws_lb_listener" "fgt_listener" {
 }
 
 resource "aws_lb_target_group_attachment" "fgtattach" {
-  depends_on       = [aws_instance.fgtvm]
+  depends_on       = [aws_instance.fgtactive]
   target_group_arn = aws_lb_target_group.fgt_target.arn
-  target_id        = data.aws_network_interface.eth1.private_ip
+  target_id        = aws_network_interface.eth1.private_ip
   port             = 6081
 }
-resource "aws_lb_target_group_attachment" "fgtattach2" {
-  depends_on       = [aws_instance.fgtvm2]
+resource "aws_lb_target_group_attachment" "fgtpassive" {
+  depends_on       = [aws_instance.fgtpassive]
   target_group_arn = aws_lb_target_group.fgt_target.arn
-  target_id        = data.aws_network_interface.eth1-1.private_ip
+  target_id        = aws_network_interface.passiveeth1.private_ip
   port             = 6081
 }
 

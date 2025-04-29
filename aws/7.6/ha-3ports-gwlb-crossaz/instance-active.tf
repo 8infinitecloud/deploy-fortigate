@@ -44,7 +44,7 @@ resource "aws_network_interface_sg_attachment" "hasyncmgmtattachment" {
 
 resource "aws_instance" "fgtactive" {
   //it will use region, architect, and license type to decide which ami to use for deployment
-  ami               = var.fgtami[var.region][var.arch][var.license_type]
+  ami               = "ami-0482366d385444bde" #var.fgtami[var.region][var.arch][var.license_type]
   instance_type     = var.size
   availability_zone = var.az1
   key_name          = var.keyname

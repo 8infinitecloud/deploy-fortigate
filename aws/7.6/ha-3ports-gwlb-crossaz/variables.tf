@@ -3,27 +3,27 @@ variable "access_key" {}
 variable "secret_key" {}
 
 variable "region" {
-  default = "eu-west-1"
+  default = "us-east-1"
 }
 
 // Availability zone 1 for the region
 variable "az1" {
-  default = "eu-west-1a"
+  default = "us-east-1a"
 }
 
 // Availability zone 2 for the region
 variable "az2" {
-  default = "eu-west-1c"
+  default = "us-east-1c"
 }
 
 // IAM role that has proper permission for HA
 // Refer to the URL For details. https://docs.fortinet.com/document/fortigate-public-cloud/7.2.0/aws-administration-guide/229470/deploying-fortigate-vm-active-passive-ha-aws-between-multiple-zones
 variable "iam" {
-  default = "<AWS IAM ROLE NAME>" //Put in the IAM Role name created
+  default = "aws-elasticbeanstalk-ec2-role" //Put in the IAM Role name created
 }
 
 variable "vpccidr" {
-  default = "20.1.0.0/16"
+  default = "20.1.0.0/20"
 }
 
 variable "publiccidraz1" {
@@ -53,24 +53,24 @@ variable "hasyncmgmtcidraz2" {
 /// ADD
 // VPC for Customer VPC
 variable "csvpccidr" {
-  default = "20.1.0.0/16"
+  default = "20.0.0.0/20"
 }
 
 variable "cspubliccidraz1" {
-  default = "20.1.0.0/24"
+  default = "20.0.0.0/24"
 }
 
 variable "csprivatecidraz1" {
-  default = "20.1.1.0/24"
+  default = "20.0.1.0/24"
 }
 
 
 variable "cspubliccidraz2" {
-  default = "20.1.2.0/24"
+  default = "20.0.2.0/24"
 }
 
 variable "csprivatecidraz2" {
-  default = "20.1.3.0/24"
+  default = "20.0.3.0/24"
 }
 
 // use s3 bucket for bootstrap
@@ -85,7 +85,7 @@ variable "bucket" {
 // License Type to create FortiGate-VM
 // Provide the license type for FortiGate-VM Instances, either byol or payg.
 variable "license_type" {
-  default = "byol"
+  default = "payg"
 }
 
 // BYOL License format to create FortiGate-VM
@@ -417,7 +417,7 @@ variable "fgtami" {
 
 //  Existing SSH Key on the AWS 
 variable "keyname" {
-  default = "<AWS SSH KEY>"
+  default = "delete-me"
 }
 
 // HTTPS access port
