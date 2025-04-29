@@ -100,7 +100,7 @@ resource "aws_subnet" "csprivatesubnetaz1" {
     Name = "cs app subnet az1"
   }
 }
-
+/*
 // AWS VPC - Customer2
 resource "aws_vpc" "customer2-vpc" {
   cidr_block           = var.cs2vpccidr
@@ -120,7 +120,7 @@ resource "aws_subnet" "cs2privatesubnetaz1" {
     Name = "cs2 app subnet az1"
   }
 }
-
+*/
 # S3 endpoint inside the VPC
 resource "aws_vpc_endpoint" "s3-endpoint-fgtvm-vpc" {
   count           = var.bucket ? 1 : 0

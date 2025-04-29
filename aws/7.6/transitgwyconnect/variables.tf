@@ -3,22 +3,22 @@ variable "access_key" {}
 variable "secret_key" {}
 
 variable "region" {
-  default = "eu-west-1"
+  default = "us-east-1"
 }
 
 // Availability zones for the region
 variable "az1" {
-  default = "eu-west-1a"
+  default = "us-east-1a"
 }
 
 variable "az2" {
-  default = "eu-west-1b"
+  default = "us-east-1b"
 }
 
 // IAM role that has proper permission for HA
 // Refer to https://docs.fortinet.com/vm/aws/fortigate/6.2/aws-cookbook/6.2.0/229470/deploying-fortigate-vm-active-passive-ha-aws-between-multiple-zones
 variable "iam" {
-  default = "<AWS IAM Role>"
+  default = "aws-elasticbeanstalk-ec2-role"
 }
 
 // VPC for FortiGate Security VPC
@@ -90,7 +90,7 @@ variable "csvpccidr" {
 variable "csprivatecidraz1" {
   default = "192.168.50.128/25"
 }
-
+/*
 // VPC for Customer2 VPC
 variable "cs2vpccidr" {
   default = "192.168.100.0/24"
@@ -99,7 +99,7 @@ variable "cs2vpccidr" {
 variable "cs2privatecidraz1" {
   default = "192.168.100.128/25"
 }
-
+*/
 // instance architect
 // Either arm or x86
 variable "arch" {
@@ -443,7 +443,7 @@ variable "fgtami" {
 
 //  Existing SSH Key on the AWS 
 variable "keyname" {
-  default = "<AWS SSH KEY>"
+  default = "delete-me"
 }
 
 //  Admin HTTPS access port

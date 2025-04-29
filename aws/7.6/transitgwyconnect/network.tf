@@ -13,7 +13,7 @@ resource "aws_internet_gateway" "csigw" {
     Name = "cs-igw"
   }
 }
-
+/*
 // CS2 IGW
 resource "aws_internet_gateway" "cs2igw" {
   vpc_id = aws_vpc.customer2-vpc.id
@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "cs2igw" {
     Name = "cs2-igw"
   }
 }
-
+*/
 // FGT VPC Route Table
 resource "aws_route_table" "fgtvmpublicrt" {
   vpc_id = aws_vpc.fgtvm-vpc.id
@@ -105,7 +105,7 @@ resource "aws_route_table" "csprivatert2" {
     Name = "cs-egress-rt"
   }
 }
-
+/*
 //CS 2 VPC Route Table
 resource "aws_route_table" "cs2privatert2" {
   vpc_id = aws_vpc.customer2-vpc.id
@@ -114,7 +114,7 @@ resource "aws_route_table" "cs2privatert2" {
     Name = "cs2-egress-rt"
   }
 }
-
+*/
 # CS 1 VPC Route
 resource "aws_route" "csexternalroute" {
   depends_on             = [aws_route_table.csprivatert2]
@@ -122,7 +122,7 @@ resource "aws_route" "csexternalroute" {
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.terraform-tgwy.id
 }
-
+/*
 # CS 2 VPC Route
 resource "aws_route" "cs2externalroute" {
   depends_on             = [aws_route_table.cs2privatert2]
@@ -130,17 +130,17 @@ resource "aws_route" "cs2externalroute" {
   destination_cidr_block = "0.0.0.0/0"
   transit_gateway_id     = aws_ec2_transit_gateway.terraform-tgwy.id
 }
-
+*/
 resource "aws_route_table_association" "csexternalassociateaz1" {
   subnet_id      = aws_subnet.csprivatesubnetaz1.id
   route_table_id = aws_route_table.csprivatert2.id
 }
-
+/*
 resource "aws_route_table_association" "cs2externalassociateaz1" {
   subnet_id      = aws_subnet.cs2privatesubnetaz1.id
   route_table_id = aws_route_table.cs2privatert2.id
 }
-
+*/
 
 resource "aws_eip" "FGTPublicIP" {
   depends_on        = [aws_instance.fgtvm]

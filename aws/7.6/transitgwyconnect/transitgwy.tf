@@ -48,7 +48,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-vpc-vpc1" {
   }
   depends_on = [aws_ec2_transit_gateway.terraform-tgwy]
 }
-
+/*
 # VPC attachment - CS2 VPC
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-vpc-vpc2" {
   appliance_mode_support                          = "enable"
@@ -62,7 +62,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-vpc-vpc2" {
   }
   depends_on = [aws_ec2_transit_gateway.terraform-tgwy]
 }
-
+*/
 # Transit Gateway connect attachment
 resource "aws_ec2_transit_gateway_connect" "attachment" {
   transport_attachment_id                         = aws_ec2_transit_gateway_vpc_attachment.tgw-att-vpc-fgt.id
@@ -94,13 +94,13 @@ resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-vpc-customer-
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-vpc-vpc1.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgwy-vpc-route.id
 }
-
+/*
 # Route Tables Associations - Customer 2 VPC
 resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-vpc-customer2-assoc" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-vpc-vpc2.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgwy-vpc-route.id
 }
-
+*/
 # Route Tables Associations - Connect
 resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-vpc-connect-assoc" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-vpc-fgt.id
@@ -130,10 +130,11 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-prop-fgt-w-cs
   transit_gateway_route_table_id = aws_ec2_transit_gateway.terraform-tgwy.association_default_route_table_id
   #transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgwy-fgt-route.id
 }
-
+/*
 # Route Tables Propagations -Customer VPC2 Route
 resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-prop-fgt-w-cs2" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-vpc-vpc2.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway.terraform-tgwy.association_default_route_table_id
   #transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgwy-fgt-route.id
 }
+*/
