@@ -5,7 +5,7 @@ resource "aws_vpc" "fgtvm-vpc" {
   enable_dns_hostnames = true
   instance_tenancy     = "default"
   tags = {
-    Name = "terraform fgt demo"
+    Name = "fgtvm-vpc"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_vpc" "customer-vpc" {
   enable_dns_hostnames = true
   instance_tenancy     = "default"
   tags = {
-    Name = "terraform customer demo"
+    Name = "customer-vpc"
   }
 }
 

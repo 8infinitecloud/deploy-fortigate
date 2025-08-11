@@ -1,0 +1,129 @@
+# FortiGate GWLB Cross-AZ HA Deployment
+
+This Terraform configuration deploys FortiGate instances in High Availability (HA) mode across two Availability Zones, integrated with existing Gateway Load Balancer (GWLB) infrastructure.
+
+## Architecture
+
+- **Active-Passive HA**: FortiGate instances deployed in Active-Passive mode
+- **Cross-AZ**: Active instance in AZ1, Passive instance in AZ2
+- **GWLB Integration**: Uses existing GWLB endpoints for traffic inspection
+- **Existing Infrastructure**: Leverages existing VPC, subnets, security groups, and GWLB
+
+## Prerequisites
+
+- Existing VPC with appropriate subnets in two AZs
+- Existing GWLB and GWLB endpoints
+- Existing security groups
+- AWS CLI configured with appropriate permissions
+- Terraform >= 0.12
+
+## Required Infrastructure
+
+This deployment requires the following existing components:
+
+### Subnets (per AZ)
+- Public subnet (for FortiGate port1)
+- Private subnet (for FortiGate port2)
+- HA Sync subnet (for FortiGate port3)
+- HA Management subnet (for FortiGate port4)
+
+### Security Groups
+- Public security group (for port1 and port4)
+- Private security group (for port2 and port3)
+
+### GWLB
+- Existing Gateway Load Balancer
+- GWLB endpoints in both AZs
+
+## Configuration
+
+1. Copy `terraform.tfvars.example` to `terraform.tfvars`
+2. Update the variables with your specific values:
+
+```hcl
+// AWS Environment
+access_key = "your-aws-access-key"
+secret_key = "your-aws-secret-key"
+region     = "us-east-1"
+
+// Existing Infrastructure
+vpc_id                     = "vpc-xxxxxxxxx"
+public_subnet_az1_id       = "subnet-xxxxxxxxx"
+private_subnet_az1_id      = "subnet-xxxxxxxxx"
+hasync_subnet_az1_id       = "subnet-xxxxxxxxx"
+hamgmt_subnet_az1_id       = "subnet-xxxxxxxxx"
+public_subnet_az2_id       = "subnet-xxxxxxxxx"
+private_subnet_az2_id      = "subnet-xxxxxxxxx"
+hasync_subnet_az2_id       = "subnet-xxxxxxxxx"
+hamgmt_subnet_az2_id       = "subnet-xxxxxxxxx"
+public_security_group_id   = "sg-xxxxxxxxx"
+private_security_group_id  = "sg-xxxxxxxxx"
+
+// FortiGate Configuration
+keyname      = "your-aws-key-pair"
+license_type = "payg"  // or "byol"
+```
+
+## Deployment
+
+1. Initialize Terraform:
+```bash
+terraform init
+```
+
+2. Plan the deployment:
+```bash
+terraform plan
+```
+
+3. Apply the configuration:
+```bash
+terraform apply
+```
+
+## FortiGate Configuration
+
+The FortiGates are configured with:
+- HA Active-Passive mode
+- Unicast heartbeat over port3
+- HA management over port4
+- Static routes to GWLB endpoints
+- Basic firewall policies for traffic inspection
+
+## Network Interfaces
+
+### Active FortiGate (AZ1)
+- **port1**: Public interface (WAN)
+- **port2**: Private interface (LAN) - connects to GWLB
+- **port3**: HA Sync interface
+- **port4**: HA Management interface
+
+### Passive FortiGate (AZ2)
+- **port1**: Public interface (WAN)
+- **port2**: Private interface (LAN) - connects to GWLB
+- **port3**: HA Sync interface
+- **port4**: HA Management interface
+
+## Outputs
+
+The deployment provides the following outputs:
+- FortiGate instance IDs
+- Network interface IP addresses
+- GWLB endpoint IP addresses
+
+## License
+
+For BYOL deployments, place your license files as:
+- `license.lic` (Active FortiGate)
+- `license2.lic` (Passive FortiGate)
+
+## Support
+
+This configuration is based on FortiGate 7.6.1 AMIs and supports both x86 and ARM architectures.
+
+## Notes
+
+- The passive FortiGate will only become active during failover scenarios
+- HA synchronization occurs over the dedicated sync interface (port3)
+- Management access is available through both the public interface (port1) and management interface (port4)
+- GWLB endpoint IPs are automatically discovered and configured in routing tables

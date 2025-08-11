@@ -3,22 +3,28 @@ resource "aws_internet_gateway" "fgtvmigw" {
   vpc_id = aws_vpc.fgtvm-vpc.id
   tags = {
     Name = "fgtvm-igw"
+    Environment = var.environment
+    Project = var.project
   }
 }
-
+/*
 resource "aws_internet_gateway" "csigw" {
   vpc_id = aws_vpc.customer-vpc.id
   tags = {
     Name = "cs-igw"
+    Environment = var.environment
+    Project = var.project
   }
 }
-
+*/
 // Route Table
 resource "aws_route_table" "fgtvmpublicrt" {
   vpc_id = aws_vpc.fgtvm-vpc.id
 
   tags = {
     Name = "fgtvm-public-rt"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -27,6 +33,8 @@ resource "aws_route_table" "fgtvmprivatert" {
 
   tags = {
     Name = "fgtvm-private-rt"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -36,6 +44,8 @@ resource "aws_route_table" "cspublicrt" {
 
   tags = {
     Name = "cs-public-edge-rt"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -44,6 +54,8 @@ resource "aws_route_table" "cspublicrt2" {
 
   tags = {
     Name = "cs-public-egress-rt"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -62,6 +74,8 @@ resource "aws_route_table" "csprivatert2" {
 
   tags = {
     Name = "cs-private-rt2"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -110,13 +124,14 @@ resource "aws_route" "csinternalroute2" {
   vpc_endpoint_id        = aws_vpc_endpoint.gwlbendpoint2.id
 }
 
+/*
 resource "aws_route" "csexternalroute" {
   depends_on             = [aws_route_table.cspublicrt2]
   route_table_id         = aws_route_table.cspublicrt2.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.csigw.id
 }
-
+*/
 
 resource "aws_route_table_association" "public1associate" {
   subnet_id      = aws_subnet.publicsubnetaz1.id
@@ -153,11 +168,11 @@ resource "aws_route_table_association" "internal2associate" {
 
 
 
-
+/*
 resource "aws_route_table_association" "cspublicassociate" {
   route_table_id = aws_route_table.cspublicrt.id
   gateway_id     = aws_internet_gateway.csigw.id
-}
+}*/
 
 resource "aws_route_table_association" "csinternalassociateaz1" {
   subnet_id      = aws_subnet.csprivatesubnetaz1.id
@@ -247,6 +262,8 @@ resource "aws_security_group" "public_allow" {
 
   tags = {
     Name = "Public Allow"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -271,6 +288,8 @@ resource "aws_security_group" "allow_all" {
 
   tags = {
     Name = "Public Allow"
+    Environment = var.environment
+    Project = var.project
   }
 }
 
@@ -291,7 +310,8 @@ resource "aws_lb" "gateway_lb" {
   }
 
   tags = {
-    Environment = "terraform sample"
+    Environment = var.environment
+    Project = var.project
   }
 }
 

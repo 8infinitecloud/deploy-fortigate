@@ -8,18 +8,18 @@ variable "region" {
 
 // Availability zone 1 for the region
 variable "az1" {
-  default = "us-east-1a"
+  default = "us-east-1c"
 }
 
 // Availability zone 2 for the region
 variable "az2" {
-  default = "us-east-1c"
+  default = "us-east-1f"
 }
 
 // IAM role that has proper permission for HA
 // Refer to the URL For details. https://docs.fortinet.com/document/fortigate-public-cloud/7.2.0/aws-administration-guide/229470/deploying-fortigate-vm-active-passive-ha-aws-between-multiple-zones
 variable "iam" {
-  default = "aws-elasticbeanstalk-ec2-role" //Put in the IAM Role name created
+  default = "roleFortigate" //Put in the IAM Role name created
 }
 
 variable "vpccidr" {
@@ -85,7 +85,7 @@ variable "bucket" {
 // License Type to create FortiGate-VM
 // Provide the license type for FortiGate-VM Instances, either byol or payg.
 variable "license_type" {
-  default = "payg"
+  default = "payg" #byol
 }
 
 // BYOL License format to create FortiGate-VM
@@ -417,7 +417,7 @@ variable "fgtami" {
 
 //  Existing SSH Key on the AWS 
 variable "keyname" {
-  default = "delete-me"
+  default = "keyFortigate"
 }
 
 // HTTPS access port
@@ -514,4 +514,14 @@ variable "licenses" {
   // Change to your own byol license files
   type    = list(string)
   default = ["license.lic", "license2.lic"]
+}
+
+variable "environment" {
+  type = string
+  default = "prd"
+}
+
+variable "project" {
+  type = string
+  default = "fortigate"
 }

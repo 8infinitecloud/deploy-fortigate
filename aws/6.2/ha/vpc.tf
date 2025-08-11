@@ -5,7 +5,7 @@ resource "aws_vpc" "fgtvm-vpc" {
   enable_dns_hostnames = true
   instance_tenancy     = "default"
   tags = {
-    Name = "terraform demo"
+    Name = "fgtvm-vpc"
   }
 }
 

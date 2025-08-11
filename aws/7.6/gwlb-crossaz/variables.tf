@@ -3,16 +3,16 @@ variable "access_key" {}
 variable "secret_key" {}
 
 variable "region" {
-  default = "eu-west-1"
+  default = "us-east-1"
 }
 
 // Availability zones for the region
 variable "az1" {
-  default = "eu-west-1a"
+  default = "us-east-1a"
 }
 
 variable "az2" {
-  default = "eu-west-1b"
+  default = "us-east-1b"
 }
 
 // VPC for FortiGate Security VPC
@@ -83,7 +83,7 @@ variable "bucket" {
 // instance architect
 // Either arm or x86
 variable "arch" {
-  default = "arm"
+  default = "x86"
 }
 
 // instance type needs to match the architect
@@ -91,7 +91,7 @@ variable "arch" {
 // c6g.xlarge is arm
 // For detail, refer to https://aws.amazon.com/ec2/instance-types/
 variable "size" {
-  default = "c6g.xlarge"
+  default = "c5.xlarge"
 }
 
 
