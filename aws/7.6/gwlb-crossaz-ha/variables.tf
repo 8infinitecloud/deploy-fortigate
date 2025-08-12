@@ -232,45 +232,12 @@ variable "passiveport4" {
   type        = string
 }
 
-// Gateway IPs (usually .1 of each subnet CIDR)
-variable "activeport1_gateway" {
-  description = "Gateway IP for active port1 (usually first IP of public_subnet_az1)"
-  type        = string
-}
+// Note: Gateway IPs are calculated automatically using cidrhost() function
+// No need to specify them manually
 
-variable "activeport2_gateway" {
-  description = "Gateway IP for active port2 (usually first IP of private_subnet_az1)"
-  type        = string
-}
-
-variable "activeport4_gateway" {
-  description = "Gateway IP for active port4 (usually first IP of hamgmt_subnet_az1)"
-  type        = string
-}
-
-variable "passiveport1_gateway" {
-  description = "Gateway IP for passive port1 (usually first IP of public_subnet_az2)"
-  type        = string
-}
-
-variable "passiveport2_gateway" {
-  description = "Gateway IP for passive port2 (usually first IP of private_subnet_az2)"
-  type        = string
-}
-
-variable "passiveport4_gateway" {
-  description = "Gateway IP for passive port4 (usually first IP of hamgmt_subnet_az2)"
-  type        = string
-}
-
-variable "bootstrap-active" {
+variable "bootstrap-fgtvm" {
   type    = string
-  default = "config-active.conf"
-}
-
-variable "bootstrap-passive" {
-  type    = string
-  default = "config-passive.conf"
+  default = "fgtvm.conf"
 }
 
 //license files for the two fgts

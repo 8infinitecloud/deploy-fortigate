@@ -31,7 +31,11 @@ keyname      = "your-aws-key-pair"
 license_type = "payg"
 size         = "c5.xlarge"
 
-// FortiGate IP Addresses - For ENI creation (interfaces will use DHCP)
+// Bootstrap configuration file (same for both FortiGates)
+bootstrap-fgtvm = "fgtvm.conf"
+
+// FortiGate ENI IP Addresses - REQUIRED for ENI creation
+// These IPs are assigned to ENIs, FortiGate gets them via DHCP automatically
 activeport1  = "10.1.0.10"   // ENI IP in public_subnet_az1
 activeport2  = "10.1.1.10"   // ENI IP in private_subnet_az1  
 activeport3  = "10.1.2.10"   // ENI IP in hasync_subnet_az1
@@ -41,10 +45,4 @@ passiveport2 = "10.1.11.10"  // ENI IP in private_subnet_az2
 passiveport3 = "10.1.12.10"  // ENI IP in hasync_subnet_az2
 passiveport4 = "10.1.13.10"  // ENI IP in hamgmt_subnet_az2
 
-// Gateway IP Addresses (calculated automatically from subnet CIDRs)
-activeport1_gateway  = "10.1.0.1"   // Gateway of public_subnet_az1
-activeport2_gateway  = "10.1.1.1"   // Gateway of private_subnet_az1
-activeport4_gateway  = "10.1.3.1"   // Gateway of hamgmt_subnet_az1
-passiveport1_gateway = "10.1.10.1"  // Gateway of public_subnet_az2
-passiveport2_gateway = "10.1.11.1"  // Gateway of private_subnet_az2
-passiveport4_gateway = "10.1.13.1"  // Gateway of hamgmt_subnet_az2
+// Note: Gateway IPs are calculated automatically using cidrhost() function

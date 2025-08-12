@@ -108,14 +108,15 @@ resource "aws_network_interface_sg_attachment" "passive_hamgmt_attachment" {
 
 // Active FortiGate Configuration
 data "template_file" "fgtconfig_active" {
-  template = file("${var.bootstrap-active}")
+  template = file("${var.bootstrap-fgtvm}")
 
   vars = {
-    adminsport  = var.adminsport
-    dst         = var.customer_vpc_cidr
-    gateway     = cidrhost(var.private_subnet_az1_cidr, 1)
-    endpointip  = var.gwlb_endpoint_az1_ip
-    endpointip2 = var.gwlb_endpoint_az2_ip
+    hostname_suffix = "Active"
+    adminsport      = var.adminsport
+    dst             = var.private_subnet_az2_cidr
+    gateway         = cidrhost(var.private_subnet_az1_cidr, 1)
+    endpointip      = var.gwlb_endpoint_az1_ip
+    endpointip2     = var.gwlb_endpoint_az2_ip
   }
 }
 
@@ -138,14 +139,15 @@ data "template_cloudinit_config" "config_active" {
 
 // Passive FortiGate Configuration
 data "template_file" "fgtconfig_passive" {
-  template = file("${var.bootstrap-passive}")
+  template = file("${var.bootstrap-fgtvm}")
 
   vars = {
-    adminsport  = var.adminsport
-    dst         = var.customer_vpc_cidr
-    gateway     = cidrhost(var.private_subnet_az2_cidr, 1)
-    endpointip  = var.gwlb_endpoint_az1_ip
-    endpointip2 = var.gwlb_endpoint_az2_ip
+    hostname_suffix = "Passive"
+    adminsport      = var.adminsport
+    dst             = var.private_subnet_az1_cidr
+    gateway         = cidrhost(var.private_subnet_az2_cidr, 1)
+    endpointip      = var.gwlb_endpoint_az1_ip
+    endpointip2     = var.gwlb_endpoint_az2_ip
   }
 }
 
@@ -176,11 +178,11 @@ resource "aws_instance" "fgtactive" {
   user_data = var.bucket ? (var.license_format == "file" ? "${jsonencode({ bucket = aws_s3_bucket.s3_bucket[0].id,
     region                        = var.region,
     license                       = var.licenses[0],
-    config                        = "${var.bootstrap-active}"
+    config                        = "${var.bootstrap-fgtvm}"
     })}" : "${jsonencode({ bucket = aws_s3_bucket.s3_bucket[0].id,
     region                        = var.region,
     license-token                 = file("${var.licenses[0]}"),
-    config                        = "${var.bootstrap-active}"
+    config                        = "${var.bootstrap-fgtvm}"
   })}") : "${data.template_cloudinit_config.config_active.rendered}"
 
   iam_instance_profile = var.bucket ? aws_iam_instance_profile.fortigate[0].id : aws_iam_instance_profile.fortigateha.id
@@ -253,11 +255,11 @@ resource "aws_instance" "fgtpassive" {
   user_data = var.bucket ? (var.license_format == "file" ? "${jsonencode({ bucket = aws_s3_bucket.s3_bucket[0].id,
     region                        = var.region,
     license                       = var.licenses[1],
-    config                        = "${var.bootstrap-passive}"
+    config                        = "${var.bootstrap-fgtvm}"
     })}" : "${jsonencode({ bucket = aws_s3_bucket.s3_bucket[0].id,
     region                        = var.region,
     license-token                 = file("${var.licenses[1]}"),
-    config                        = "${var.bootstrap-passive}"
+    config                        = "${var.bootstrap-fgtvm}"
   })}") : "${data.template_cloudinit_config.config_passive.rendered}"
 
   iam_instance_profile = var.bucket ? aws_iam_instance_profile.fortigate[0].id : aws_iam_instance_profile.fortigateha.id
