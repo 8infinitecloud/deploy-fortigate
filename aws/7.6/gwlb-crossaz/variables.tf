@@ -8,54 +8,54 @@ variable "region" {
 
 // Availability zones for the region
 variable "az1" {
-  default = "us-east-1a"
+  default = "us-east-1c"
 }
 
 variable "az2" {
-  default = "us-east-1b"
+  default = "us-east-1f"
 }
 
 // VPC for FortiGate Security VPC
 variable "vpccidr" {
-  default = "10.1.0.0/16"
+  default = "20.1.0.0/16"
 }
 
 variable "publiccidraz1" {
-  default = "10.1.0.0/24"
+  default = "20.1.0.0/24"
 }
 
 variable "privatecidraz1" {
-  default = "10.1.1.0/24"
+  default = "20.1.1.0/24"
 }
 
 variable "publiccidraz2" {
-  default = "10.1.2.0/24"
+  default = "20.1.2.0/24"
 }
 
 variable "privatecidraz2" {
-  default = "10.1.3.0/24"
+  default = "20.1.3.0/24"
 }
 
 // VPC for Customer VPC
 variable "csvpccidr" {
-  default = "20.1.0.0/16"
+  default = "30.1.0.0/16"
 }
 
 variable "cspubliccidraz1" {
-  default = "20.1.0.0/24"
+  default = "30.1.0.0/24"
 }
 
 variable "csprivatecidraz1" {
-  default = "20.1.1.0/24"
+  default = "30.1.1.0/24"
 }
 
 
 variable "cspubliccidraz2" {
-  default = "20.1.2.0/24"
+  default = "30.1.2.0/24"
 }
 
 variable "csprivatecidraz2" {
-  default = "20.1.3.0/24"
+  default = "30.1.3.0/24"
 }
 
 
@@ -404,7 +404,7 @@ variable "fgtami" {
 
 //  Existing SSH Key on the AWS 
 variable "keyname" {
-  default = "<AWS SSH KEY>"
+  default = "AQUI"
 }
 
 //  Admin HTTPS access port
