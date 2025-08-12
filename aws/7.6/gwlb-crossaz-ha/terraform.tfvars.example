@@ -22,6 +22,8 @@ public_security_group_id   = "sg-xxxxxxxxx"
 private_security_group_id  = "sg-xxxxxxxxx"
 gwlb_endpoint_az1_ip       = "10.1.1.100"
 gwlb_endpoint_az2_ip       = "10.1.11.100"
+gwlb_endpoint_az1_id       = "vpce-xxxxxxxxx"
+gwlb_endpoint_az2_id       = "vpce-yyyyyyyyy"
 
 // FortiGate Configuration
 keyname      = "your-aws-key-pair"
