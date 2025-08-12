@@ -90,11 +90,25 @@ terraform apply
 ## FortiGate Configuration
 
 The FortiGates are configured with:
-- HA Active-Passive mode
-- Unicast heartbeat over port3
-- HA management over port4
-- Static routes to GWLB endpoints
-- Basic firewall policies for traffic inspection
+
+### High Availability (HA)
+- **Active-Passive mode** with priority 255 (Active) and 100 (Passive)
+- **Unicast heartbeat** over port3 with password authentication
+- **HA management** over port4 for out-of-band access
+- **Session pickup** enabled for seamless failover
+- **AWS SDN connector** for automatic failover handling
+
+### GWLB Integration
+- **Multi-VDOM mode** with separate traffic VDOM
+- **GENEVE tunnels** to both GWLB endpoints (awsgeneve, awsgeneve2)
+- **HTTP probe response** on port2 for GWLB health checks
+- **Zone-based policies** for traffic inspection
+- **Policy routing** for proper GENEVE tunnel handling
+
+### Security Features
+- **Traffic logging** for all inspected traffic
+- **Jumbo frame support** (MTU 9001) for optimal performance
+- **Basic inspection policies** (UTM profiles can be added as needed)
 
 ## Network Interfaces
 
@@ -113,6 +127,12 @@ The FortiGates are configured with:
 ### Management Access Options:
 1. **Port1 (WAN)**: Standard management access through the main interface
 2. **Port4 (Dedicated Management)**: Separate management interface for out-of-band access
+
+### GENEVE Tunnels:
+- **awsgeneve**: GENEVE tunnel to GWLB endpoint in AZ1
+- **awsgeneve2**: GENEVE tunnel to GWLB endpoint in AZ2
+- **awszone**: Security zone containing both GENEVE interfaces
+- Traffic flows: Customer VPC → GWLB Endpoint → GENEVE Tunnel → FortiGate → Inspection → Return
 
 ## Outputs
 
@@ -135,6 +155,15 @@ After deployment, you can access the FortiGates using:
 - **Via Management Port**: `https://<FortiGate-Passive-Mgmt-EIP>:443`
 
 Default credentials: `admin` / `<instance-id>`
+
+## Health Checks
+
+The GWLB performs health checks on port 8008 (TCP). The FortiGates are configured with:
+- **HTTP probe response** enabled on port2
+- **Probe response mode** set to http-probe
+- Health check endpoint accessible at `http://<fortigate-port2-ip>:8008`
+
+The GWLB will mark targets as healthy when they respond to HTTP probes on port 8008.
 
 ## License
 
