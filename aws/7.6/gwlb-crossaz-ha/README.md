@@ -99,23 +99,42 @@ The FortiGates are configured with:
 ## Network Interfaces
 
 ### Active FortiGate (AZ1)
-- **port1**: Public interface (WAN)
+- **port1**: Public interface (WAN) - has Elastic IP for management access
 - **port2**: Private interface (LAN) - connects to GWLB
 - **port3**: HA Sync interface
-- **port4**: HA Management interface
+- **port4**: HA Management interface - has dedicated Elastic IP for management
 
 ### Passive FortiGate (AZ2)
-- **port1**: Public interface (WAN)
+- **port1**: Public interface (WAN) - has Elastic IP for management access
 - **port2**: Private interface (LAN) - connects to GWLB
 - **port3**: HA Sync interface
-- **port4**: HA Management interface
+- **port4**: HA Management interface - has dedicated Elastic IP for management
+
+### Management Access Options:
+1. **Port1 (WAN)**: Standard management access through the main interface
+2. **Port4 (Dedicated Management)**: Separate management interface for out-of-band access
 
 ## Outputs
 
 The deployment provides the following outputs:
-- FortiGate instance IDs
-- Network interface IP addresses
-- GWLB endpoint IP addresses
+- **Public IP addresses**: For management access to both FortiGates
+- **Private IP addresses**: All network interface IPs
+- **GWLB endpoint IPs**: For reference
+- **Instance IDs**: For AWS console reference
+
+## Management Access
+
+After deployment, you can access the FortiGates using:
+
+### Active FortiGate:
+- **Via Port1**: `https://<FortiGate-Active-Public-EIP>:443`
+- **Via Management Port**: `https://<FortiGate-Active-Mgmt-EIP>:443`
+
+### Passive FortiGate:
+- **Via Port1**: `https://<FortiGate-Passive-Public-EIP>:443`
+- **Via Management Port**: `https://<FortiGate-Passive-Mgmt-EIP>:443`
+
+Default credentials: `admin` / `<instance-id>`
 
 ## License
 

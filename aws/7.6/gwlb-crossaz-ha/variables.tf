@@ -174,75 +174,75 @@ variable "adminsport" {
 
 // FortiGate Active Instance IPs
 variable "activeport1" {
-  description = "Active FortiGate port1 IP"
-  default     = "10.1.0.10"
+  description = "Active FortiGate port1 IP (must be within public_subnet_az1 CIDR)"
+  type        = string
 }
 
 variable "activeport2" {
-  description = "Active FortiGate port2 IP"
-  default     = "10.1.1.10"
+  description = "Active FortiGate port2 IP (must be within private_subnet_az1 CIDR)"
+  type        = string
 }
 
 variable "activeport3" {
-  description = "Active FortiGate port3 IP (HA sync)"
-  default     = "10.1.2.10"
+  description = "Active FortiGate port3 IP - HA sync (must be within hasync_subnet_az1 CIDR)"
+  type        = string
 }
 
 variable "activeport4" {
-  description = "Active FortiGate port4 IP (HA mgmt)"
-  default     = "10.1.3.10"
+  description = "Active FortiGate port4 IP - HA mgmt (must be within hamgmt_subnet_az1 CIDR)"
+  type        = string
 }
 
 // FortiGate Passive Instance IPs
 variable "passiveport1" {
-  description = "Passive FortiGate port1 IP"
-  default     = "10.1.10.10"
+  description = "Passive FortiGate port1 IP (must be within public_subnet_az2 CIDR)"
+  type        = string
 }
 
 variable "passiveport2" {
-  description = "Passive FortiGate port2 IP"
-  default     = "10.1.11.10"
+  description = "Passive FortiGate port2 IP (must be within private_subnet_az2 CIDR)"
+  type        = string
 }
 
 variable "passiveport3" {
-  description = "Passive FortiGate port3 IP (HA sync)"
-  default     = "10.1.12.10"
+  description = "Passive FortiGate port3 IP - HA sync (must be within hasync_subnet_az2 CIDR)"
+  type        = string
 }
 
 variable "passiveport4" {
-  description = "Passive FortiGate port4 IP (HA mgmt)"
-  default     = "10.1.13.10"
+  description = "Passive FortiGate port4 IP - HA mgmt (must be within hamgmt_subnet_az2 CIDR)"
+  type        = string
 }
 
-// Gateway IPs (calculated from subnet CIDR)
+// Gateway IPs (usually .1 of each subnet CIDR)
 variable "activeport1_gateway" {
-  description = "Gateway IP for active port1"
-  default     = "10.1.0.1"
+  description = "Gateway IP for active port1 (usually first IP of public_subnet_az1)"
+  type        = string
 }
 
 variable "activeport2_gateway" {
-  description = "Gateway IP for active port2"
-  default     = "10.1.1.1"
+  description = "Gateway IP for active port2 (usually first IP of private_subnet_az1)"
+  type        = string
 }
 
 variable "activeport4_gateway" {
-  description = "Gateway IP for active port4"
-  default     = "10.1.3.1"
+  description = "Gateway IP for active port4 (usually first IP of hamgmt_subnet_az1)"
+  type        = string
 }
 
 variable "passiveport1_gateway" {
-  description = "Gateway IP for passive port1"
-  default     = "10.1.10.1"
+  description = "Gateway IP for passive port1 (usually first IP of public_subnet_az2)"
+  type        = string
 }
 
 variable "passiveport2_gateway" {
-  description = "Gateway IP for passive port2"
-  default     = "10.1.11.1"
+  description = "Gateway IP for passive port2 (usually first IP of private_subnet_az2)"
+  type        = string
 }
 
 variable "passiveport4_gateway" {
-  description = "Gateway IP for passive port4"
-  default     = "10.1.13.1"
+  description = "Gateway IP for passive port4 (usually first IP of hamgmt_subnet_az2)"
+  type        = string
 }
 
 variable "bootstrap-active" {

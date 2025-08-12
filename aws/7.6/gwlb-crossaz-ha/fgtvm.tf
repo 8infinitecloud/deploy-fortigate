@@ -241,6 +241,27 @@ resource "aws_instance" "fgtactive" {
   }
 }
 
+// Elastic IPs for public access
+resource "aws_eip" "active_public_ip" {
+  depends_on        = [aws_instance.fgtactive]
+  domain            = "vpc"
+  network_interface = aws_network_interface.eth0_active.id
+  
+  tags = {
+    Name = "FortiGate-Active-PublicIP"
+  }
+}
+
+resource "aws_eip" "active_mgmt_ip" {
+  depends_on        = [aws_instance.fgtactive]
+  domain            = "vpc"
+  network_interface = aws_network_interface.eth3_active.id
+  
+  tags = {
+    Name = "FortiGate-Active-MgmtIP"
+  }
+}
+
 // Passive FortiGate Instance
 resource "aws_instance" "fgtpassive" {
   depends_on        = [aws_instance.fgtactive]
@@ -294,5 +315,25 @@ resource "aws_instance" "fgtpassive" {
 
   tags = {
     Name = "FortiGateVM-Passive-AZ2"
+  }
+}
+
+resource "aws_eip" "passive_public_ip" {
+  depends_on        = [aws_instance.fgtpassive]
+  domain            = "vpc"
+  network_interface = aws_network_interface.eth0_passive.id
+  
+  tags = {
+    Name = "FortiGate-Passive-PublicIP"
+  }
+}
+
+resource "aws_eip" "passive_mgmt_ip" {
+  depends_on        = [aws_instance.fgtpassive]
+  domain            = "vpc"
+  network_interface = aws_network_interface.eth3_passive.id
+  
+  tags = {
+    Name = "FortiGate-Passive-MgmtIP"
   }
 }

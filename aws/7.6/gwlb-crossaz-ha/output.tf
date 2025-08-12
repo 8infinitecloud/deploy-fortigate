@@ -1,8 +1,30 @@
-output "FortiGate-Active-PublicIP" {
+// Public IP Addresses for Management Access
+output "FortiGate-Active-Public-EIP" {
+  value       = aws_eip.active_public_ip.public_ip
+  description = "Active FortiGate public IP for management via port1"
+}
+
+output "FortiGate-Active-Mgmt-EIP" {
+  value       = aws_eip.active_mgmt_ip.public_ip
+  description = "Active FortiGate dedicated management IP via port4"
+}
+
+output "FortiGate-Passive-Public-EIP" {
+  value       = aws_eip.passive_public_ip.public_ip
+  description = "Passive FortiGate public IP for management via port1"
+}
+
+output "FortiGate-Passive-Mgmt-EIP" {
+  value       = aws_eip.passive_mgmt_ip.public_ip
+  description = "Passive FortiGate dedicated management IP via port4"
+}
+
+// Private IP Addresses
+output "FortiGate-Active-Port1-PrivateIP" {
   value = aws_network_interface.eth0_active.private_ip
 }
 
-output "FortiGate-Active-PrivateIP" {
+output "FortiGate-Active-Port2-PrivateIP" {
   value = aws_network_interface.eth1_active.private_ip
 }
 
@@ -14,11 +36,11 @@ output "FortiGate-Active-HAMgmtIP" {
   value = aws_network_interface.eth3_active.private_ip
 }
 
-output "FortiGate-Passive-PublicIP" {
+output "FortiGate-Passive-Port1-PrivateIP" {
   value = aws_network_interface.eth0_passive.private_ip
 }
 
-output "FortiGate-Passive-PrivateIP" {
+output "FortiGate-Passive-Port2-PrivateIP" {
   value = aws_network_interface.eth1_passive.private_ip
 }
 
