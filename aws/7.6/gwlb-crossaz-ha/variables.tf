@@ -89,17 +89,6 @@ variable "gwlb_endpoint_az2_ip" {
   type        = string
 }
 
-// Existing GWLB Endpoint IDs (for route tables)
-variable "gwlb_endpoint_az1_id" {
-  description = "GWLB endpoint ID in AZ1 (vpce-xxxxx)"
-  type        = string
-}
-
-variable "gwlb_endpoint_az2_id" {
-  description = "GWLB endpoint ID in AZ2 (vpce-xxxxx)"
-  type        = string
-}
-
 // License Type to create FortiGate-VM
 variable "license_type" {
   default = "payg"
