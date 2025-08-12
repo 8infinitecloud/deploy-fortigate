@@ -26,12 +26,6 @@ variable "customer_vpc_id" {
   type        = string
 }
 
-variable "customer_vpc_cidr" {
-  description = "Customer VPC CIDR block for routing"
-  type        = string
-  default     = "20.1.0.0/16"
-}
-
 // Existing Subnet IDs
 variable "public_subnet_az1_id" {
   description = "Existing public subnet ID in AZ1"
@@ -41,12 +35,6 @@ variable "public_subnet_az1_id" {
 variable "private_subnet_az1_id" {
   description = "Existing private subnet ID in AZ1"
   type        = string
-}
-
-variable "private_subnet_az1_cidr" {
-  description = "Private subnet CIDR in AZ1 for gateway calculation"
-  type        = string
-  default     = "10.1.1.0/24"
 }
 
 variable "hasync_subnet_az1_id" {
@@ -67,12 +55,6 @@ variable "public_subnet_az2_id" {
 variable "private_subnet_az2_id" {
   description = "Existing private subnet ID in AZ2"
   type        = string
-}
-
-variable "private_subnet_az2_cidr" {
-  description = "Private subnet CIDR in AZ2 for gateway calculation"
-  type        = string
-  default     = "10.1.11.0/24"
 }
 
 variable "hasync_subnet_az2_id" {
@@ -190,50 +172,9 @@ variable "adminsport" {
   default = "443"
 }
 
-// FortiGate Active Instance IPs
-variable "activeport1" {
-  description = "Active FortiGate port1 IP (must be within public_subnet_az1 CIDR)"
-  type        = string
-}
 
-variable "activeport2" {
-  description = "Active FortiGate port2 IP (must be within private_subnet_az1 CIDR)"
-  type        = string
-}
 
-variable "activeport3" {
-  description = "Active FortiGate port3 IP - HA sync (must be within hasync_subnet_az1 CIDR)"
-  type        = string
-}
-
-variable "activeport4" {
-  description = "Active FortiGate port4 IP - HA mgmt (must be within hamgmt_subnet_az1 CIDR)"
-  type        = string
-}
-
-// FortiGate Passive Instance IPs
-variable "passiveport1" {
-  description = "Passive FortiGate port1 IP (must be within public_subnet_az2 CIDR)"
-  type        = string
-}
-
-variable "passiveport2" {
-  description = "Passive FortiGate port2 IP (must be within private_subnet_az2 CIDR)"
-  type        = string
-}
-
-variable "passiveport3" {
-  description = "Passive FortiGate port3 IP - HA sync (must be within hasync_subnet_az2 CIDR)"
-  type        = string
-}
-
-variable "passiveport4" {
-  description = "Passive FortiGate port4 IP - HA mgmt (must be within hamgmt_subnet_az2 CIDR)"
-  type        = string
-}
-
-// Note: Gateway IPs are calculated automatically using cidrhost() function
-// No need to specify them manually
+// Note: All IPs are assigned via DHCP, no static IP configuration needed
 
 variable "bootstrap-fgtvm" {
   type    = string

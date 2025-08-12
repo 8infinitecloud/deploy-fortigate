@@ -3,27 +3,23 @@
 resource "aws_network_interface" "eth0_active" {
   description = "active-port1"
   subnet_id   = var.public_subnet_az1_id
-  private_ips = [var.activeport1]
 }
 
 resource "aws_network_interface" "eth1_active" {
   description       = "active-port2"
   subnet_id         = var.private_subnet_az1_id
-  private_ips       = [var.activeport2]
   source_dest_check = false
 }
 
 resource "aws_network_interface" "eth2_active" {
   description       = "active-port3"
   subnet_id         = var.hasync_subnet_az1_id
-  private_ips       = [var.activeport3]
   source_dest_check = false
 }
 
 resource "aws_network_interface" "eth3_active" {
   description = "active-port4"
   subnet_id   = var.hamgmt_subnet_az1_id
-  private_ips = [var.activeport4]
 }
 
 // FortiGate Passive Instance (AZ2)
@@ -31,27 +27,23 @@ resource "aws_network_interface" "eth3_active" {
 resource "aws_network_interface" "eth0_passive" {
   description = "passive-port1"
   subnet_id   = var.public_subnet_az2_id
-  private_ips = [var.passiveport1]
 }
 
 resource "aws_network_interface" "eth1_passive" {
   description       = "passive-port2"
   subnet_id         = var.private_subnet_az2_id
-  private_ips       = [var.passiveport2]
   source_dest_check = false
 }
 
 resource "aws_network_interface" "eth2_passive" {
   description       = "passive-port3"
   subnet_id         = var.hasync_subnet_az2_id
-  private_ips       = [var.passiveport3]
   source_dest_check = false
 }
 
 resource "aws_network_interface" "eth3_passive" {
   description = "passive-port4"
   subnet_id   = var.hamgmt_subnet_az2_id
-  private_ips = [var.passiveport4]
 }
 
 // Security Group Attachments - Active
@@ -113,8 +105,6 @@ data "template_file" "fgtconfig_active" {
   vars = {
     hostname_suffix = "Active"
     adminsport      = var.adminsport
-    dst             = var.private_subnet_az2_cidr
-    gateway         = cidrhost(var.private_subnet_az1_cidr, 1)
     endpointip      = var.gwlb_endpoint_az1_ip
     endpointip2     = var.gwlb_endpoint_az2_ip
   }
@@ -144,8 +134,6 @@ data "template_file" "fgtconfig_passive" {
   vars = {
     hostname_suffix = "Passive"
     adminsport      = var.adminsport
-    dst             = var.private_subnet_az1_cidr
-    gateway         = cidrhost(var.private_subnet_az2_cidr, 1)
     endpointip      = var.gwlb_endpoint_az1_ip
     endpointip2     = var.gwlb_endpoint_az2_ip
   }

@@ -91,15 +91,14 @@ terraform apply
 
 The FortiGates are configured with:
 
-### High Availability (HA)
-- **Active-Passive mode** with priority 255 (Active) and 100 (Passive)
-- **Unicast heartbeat** over port3 with password authentication
-- **HA management** over port4 for out-of-band access
-- **Session pickup** enabled for seamless failover
-- **AWS SDN connector** for automatic failover handling
+### Network Configuration
+- **DHCP mode** on all interfaces for automatic IP assignment
+- **Four network interfaces** per FortiGate (public, private, HA sync, HA mgmt)
+- **Elastic IPs** for management access on public and management interfaces
+- **Source/destination check disabled** on private and HA sync interfaces
 
 ### GWLB Integration
-- **Multi-VDOM mode** with separate traffic VDOM
+- **Single VDOM mode** for simplified configuration and management
 - **GENEVE tunnels** to both GWLB endpoints (awsgeneve, awsgeneve2)
 - **HTTP probe response** on port2 for GWLB health checks
 - **Zone-based policies** for traffic inspection

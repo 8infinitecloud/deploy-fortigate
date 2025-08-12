@@ -10,15 +10,12 @@ az2 = "us-east-1b"
 // Existing Infrastructure IDs
 security_vpc_id            = "vpc-xxxxxxxxx"  // Security VPC where FortiGates are deployed
 customer_vpc_id            = "vpc-yyyyyyyyy"  // Customer VPC where GWLB endpoints are located
-customer_vpc_cidr          = "20.1.0.0/16"   // Customer VPC CIDR for routing
 public_subnet_az1_id       = "subnet-xxxxxxxxx"
 private_subnet_az1_id      = "subnet-xxxxxxxxx"
-private_subnet_az1_cidr    = "10.1.1.0/24"
 hasync_subnet_az1_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az1_id       = "subnet-xxxxxxxxx"
 public_subnet_az2_id       = "subnet-xxxxxxxxx"
 private_subnet_az2_id      = "subnet-xxxxxxxxx"
-private_subnet_az2_cidr    = "10.1.11.0/24"
 hasync_subnet_az2_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az2_id       = "subnet-xxxxxxxxx"
 public_security_group_id   = "sg-xxxxxxxxx"
@@ -34,15 +31,4 @@ size         = "c5.xlarge"
 // Bootstrap configuration file (same for both FortiGates)
 bootstrap-fgtvm = "fgtvm.conf"
 
-// FortiGate ENI IP Addresses - REQUIRED for ENI creation
-// These IPs are assigned to ENIs, FortiGate gets them via DHCP automatically
-activeport1  = "10.1.0.10"   // ENI IP in public_subnet_az1
-activeport2  = "10.1.1.10"   // ENI IP in private_subnet_az1  
-activeport3  = "10.1.2.10"   // ENI IP in hasync_subnet_az1
-activeport4  = "10.1.3.10"   // ENI IP in hamgmt_subnet_az1
-passiveport1 = "10.1.10.10"  // ENI IP in public_subnet_az2
-passiveport2 = "10.1.11.10"  // ENI IP in private_subnet_az2
-passiveport3 = "10.1.12.10"  // ENI IP in hasync_subnet_az2
-passiveport4 = "10.1.13.10"  // ENI IP in hamgmt_subnet_az2
-
-// Note: Gateway IPs are calculated automatically using cidrhost() function
+// Note: All FortiGate interfaces use DHCP - no static IP configuration needed
