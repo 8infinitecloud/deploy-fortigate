@@ -13,10 +13,12 @@ customer_vpc_id            = "vpc-yyyyyyyyy"  // Customer VPC where GWLB endpoin
 customer_vpc_cidr          = "20.1.0.0/16"   // Customer VPC CIDR for routing
 public_subnet_az1_id       = "subnet-xxxxxxxxx"
 private_subnet_az1_id      = "subnet-xxxxxxxxx"
+private_subnet_az1_cidr    = "10.1.1.0/24"
 hasync_subnet_az1_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az1_id       = "subnet-xxxxxxxxx"
 public_subnet_az2_id       = "subnet-xxxxxxxxx"
 private_subnet_az2_id      = "subnet-xxxxxxxxx"
+private_subnet_az2_cidr    = "10.1.11.0/24"
 hasync_subnet_az2_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az2_id       = "subnet-xxxxxxxxx"
 public_security_group_id   = "sg-xxxxxxxxx"
@@ -29,18 +31,17 @@ keyname      = "your-aws-key-pair"
 license_type = "payg"
 size         = "c5.xlarge"
 
-// FortiGate IP Addresses - MUST be within subnet CIDR ranges and available
-// Check your subnet CIDRs and ensure these IPs are not in use
-activeport1  = "10.1.0.10"   // Must be in public_subnet_az1 CIDR
-activeport2  = "10.1.1.10"   // Must be in private_subnet_az1 CIDR  
-activeport3  = "10.1.2.10"   // Must be in hasync_subnet_az1 CIDR
-activeport4  = "10.1.3.10"   // Must be in hamgmt_subnet_az1 CIDR
-passiveport1 = "10.1.10.10"  // Must be in public_subnet_az2 CIDR
-passiveport2 = "10.1.11.10"  // Must be in private_subnet_az2 CIDR
-passiveport3 = "10.1.12.10"  // Must be in hasync_subnet_az2 CIDR
-passiveport4 = "10.1.13.10"  // Must be in hamgmt_subnet_az2 CIDR
+// FortiGate IP Addresses - For ENI creation (interfaces will use DHCP)
+activeport1  = "10.1.0.10"   // ENI IP in public_subnet_az1
+activeport2  = "10.1.1.10"   // ENI IP in private_subnet_az1  
+activeport3  = "10.1.2.10"   // ENI IP in hasync_subnet_az1
+activeport4  = "10.1.3.10"   // ENI IP in hamgmt_subnet_az1
+passiveport1 = "10.1.10.10"  // ENI IP in public_subnet_az2
+passiveport2 = "10.1.11.10"  // ENI IP in private_subnet_az2
+passiveport3 = "10.1.12.10"  // ENI IP in hasync_subnet_az2
+passiveport4 = "10.1.13.10"  // ENI IP in hamgmt_subnet_az2
 
-// Gateway IP Addresses (usually .1 of each subnet CIDR)
+// Gateway IP Addresses (calculated automatically from subnet CIDRs)
 activeport1_gateway  = "10.1.0.1"   // Gateway of public_subnet_az1
 activeport2_gateway  = "10.1.1.1"   // Gateway of private_subnet_az1
 activeport4_gateway  = "10.1.3.1"   // Gateway of hamgmt_subnet_az1

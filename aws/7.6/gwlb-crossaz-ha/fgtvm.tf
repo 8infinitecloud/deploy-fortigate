@@ -111,23 +111,11 @@ data "template_file" "fgtconfig_active" {
   template = file("${var.bootstrap-active}")
 
   vars = {
-    adminsport       = var.adminsport
-    port1_ip         = var.activeport1
-    port1_mask       = "255.255.255.0"
-    port1_gateway    = var.activeport1_gateway
-    port2_ip         = var.activeport2
-    port2_mask       = "255.255.255.0"
-    port2_gateway    = var.activeport2_gateway
-    port3_ip         = var.activeport3
-    port3_mask       = "255.255.255.0"
-    port4_ip         = var.activeport4
-    port4_mask       = "255.255.255.0"
-    port4_gateway    = var.activeport4_gateway
-    passive_peerip   = var.passiveport3
-    dst              = var.customer_vpc_cidr
-    gateway          = var.activeport2_gateway
-    endpointip       = var.gwlb_endpoint_az1_ip
-    endpointip2      = var.gwlb_endpoint_az2_ip
+    adminsport  = var.adminsport
+    dst         = var.customer_vpc_cidr
+    gateway     = cidrhost(var.private_subnet_az1_cidr, 1)
+    endpointip  = var.gwlb_endpoint_az1_ip
+    endpointip2 = var.gwlb_endpoint_az2_ip
   }
 }
 
@@ -153,23 +141,11 @@ data "template_file" "fgtconfig_passive" {
   template = file("${var.bootstrap-passive}")
 
   vars = {
-    adminsport       = var.adminsport
-    port1_ip         = var.passiveport1
-    port1_mask       = "255.255.255.0"
-    port1_gateway    = var.passiveport1_gateway
-    port2_ip         = var.passiveport2
-    port2_mask       = "255.255.255.0"
-    port2_gateway    = var.passiveport2_gateway
-    port3_ip         = var.passiveport3
-    port3_mask       = "255.255.255.0"
-    port4_ip         = var.passiveport4
-    port4_mask       = "255.255.255.0"
-    port4_gateway    = var.passiveport4_gateway
-    active_peerip    = var.activeport3
-    dst              = var.customer_vpc_cidr
-    gateway          = var.passiveport2_gateway
-    endpointip       = var.gwlb_endpoint_az1_ip
-    endpointip2      = var.gwlb_endpoint_az2_ip
+    adminsport  = var.adminsport
+    dst         = var.customer_vpc_cidr
+    gateway     = cidrhost(var.private_subnet_az2_cidr, 1)
+    endpointip  = var.gwlb_endpoint_az1_ip
+    endpointip2 = var.gwlb_endpoint_az2_ip
   }
 }
 

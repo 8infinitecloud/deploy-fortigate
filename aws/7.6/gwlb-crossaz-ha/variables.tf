@@ -43,6 +43,12 @@ variable "private_subnet_az1_id" {
   type        = string
 }
 
+variable "private_subnet_az1_cidr" {
+  description = "Private subnet CIDR in AZ1 for gateway calculation"
+  type        = string
+  default     = "10.1.1.0/24"
+}
+
 variable "hasync_subnet_az1_id" {
   description = "Existing HA sync subnet ID in AZ1"
   type        = string
@@ -61,6 +67,12 @@ variable "public_subnet_az2_id" {
 variable "private_subnet_az2_id" {
   description = "Existing private subnet ID in AZ2"
   type        = string
+}
+
+variable "private_subnet_az2_cidr" {
+  description = "Private subnet CIDR in AZ2 for gateway calculation"
+  type        = string
+  default     = "10.1.11.0/24"
 }
 
 variable "hasync_subnet_az2_id" {
