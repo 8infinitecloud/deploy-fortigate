@@ -124,6 +124,8 @@ data "template_file" "fgtconfig_active" {
     port4_mask       = "255.255.255.0"
     port4_gateway    = var.activeport4_gateway
     passive_peerip   = var.passiveport3
+    dst              = var.customer_vpc_cidr
+    gateway          = var.activeport2_gateway
     endpointip       = var.gwlb_endpoint_az1_ip
     endpointip2      = var.gwlb_endpoint_az2_ip
   }
@@ -164,6 +166,8 @@ data "template_file" "fgtconfig_passive" {
     port4_mask       = "255.255.255.0"
     port4_gateway    = var.passiveport4_gateway
     active_peerip    = var.activeport3
+    dst              = var.customer_vpc_cidr
+    gateway          = var.passiveport2_gateway
     endpointip       = var.gwlb_endpoint_az1_ip
     endpointip2      = var.gwlb_endpoint_az2_ip
   }

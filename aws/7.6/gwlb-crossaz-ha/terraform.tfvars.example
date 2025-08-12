@@ -10,6 +10,7 @@ az2 = "us-east-1b"
 // Existing Infrastructure IDs
 security_vpc_id            = "vpc-xxxxxxxxx"  // Security VPC where FortiGates are deployed
 customer_vpc_id            = "vpc-yyyyyyyyy"  // Customer VPC where GWLB endpoints are located
+customer_vpc_cidr          = "20.1.0.0/16"   // Customer VPC CIDR for routing
 public_subnet_az1_id       = "subnet-xxxxxxxxx"
 private_subnet_az1_id      = "subnet-xxxxxxxxx"
 hasync_subnet_az1_id       = "subnet-xxxxxxxxx"

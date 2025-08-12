@@ -26,6 +26,12 @@ variable "customer_vpc_id" {
   type        = string
 }
 
+variable "customer_vpc_cidr" {
+  description = "Customer VPC CIDR block for routing"
+  type        = string
+  default     = "20.1.0.0/16"
+}
+
 // Existing Subnet IDs
 variable "public_subnet_az1_id" {
   description = "Existing public subnet ID in AZ1"
