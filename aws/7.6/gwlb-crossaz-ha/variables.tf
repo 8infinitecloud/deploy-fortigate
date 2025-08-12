@@ -89,6 +89,32 @@ variable "gwlb_endpoint_az2_ip" {
   type        = string
 }
 
+// Private subnet CIDRs for routing configuration
+variable "private_subnet_az1_cidr" {
+  description = "Private subnet CIDR in AZ1 for gateway calculation"
+  type        = string
+  default     = "10.1.1.0/24"
+}
+
+variable "private_subnet_az2_cidr" {
+  description = "Private subnet CIDR in AZ2 for gateway calculation"
+  type        = string
+  default     = "10.1.11.0/24"
+}
+
+// Network CIDRs for routing configuration
+variable "private_subnet_az1_cidr" {
+  description = "Private subnet CIDR in AZ1 for gateway calculation"
+  type        = string
+  default     = "10.1.1.0/24"
+}
+
+variable "private_subnet_az2_cidr" {
+  description = "Private subnet CIDR in AZ2 for gateway calculation"
+  type        = string
+  default     = "10.1.11.0/24"
+}
+
 // License Type to create FortiGate-VM
 variable "license_type" {
   default = "payg"

@@ -23,6 +23,10 @@ private_security_group_id  = "sg-xxxxxxxxx"
 gwlb_endpoint_az1_ip       = "10.1.1.100"
 gwlb_endpoint_az2_ip       = "10.1.11.100"
 
+// Network CIDRs for routing configuration
+private_subnet_az1_cidr    = "10.1.1.0/24"
+private_subnet_az2_cidr    = "10.1.11.0/24"
+
 // FortiGate Configuration
 keyname      = "your-aws-key-pair"
 license_type = "payg"

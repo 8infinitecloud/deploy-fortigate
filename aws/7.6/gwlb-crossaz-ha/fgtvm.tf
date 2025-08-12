@@ -103,10 +103,11 @@ data "template_file" "fgtconfig_active" {
   template = file("${var.bootstrap-fgtvm}")
 
   vars = {
-    hostname_suffix = "Active"
-    adminsport      = var.adminsport
-    endpointip      = var.gwlb_endpoint_az1_ip
-    endpointip2     = var.gwlb_endpoint_az2_ip
+    adminsport  = var.adminsport
+    endpointip  = var.gwlb_endpoint_az1_ip
+    endpointip2 = var.gwlb_endpoint_az2_ip
+    dst         = var.private_subnet_az2_cidr
+    gateway     = cidrhost(var.private_subnet_az1_cidr, 1)
   }
 }
 
@@ -132,10 +133,11 @@ data "template_file" "fgtconfig_passive" {
   template = file("${var.bootstrap-fgtvm}")
 
   vars = {
-    hostname_suffix = "Passive"
-    adminsport      = var.adminsport
-    endpointip      = var.gwlb_endpoint_az1_ip
-    endpointip2     = var.gwlb_endpoint_az2_ip
+    adminsport  = var.adminsport
+    endpointip  = var.gwlb_endpoint_az1_ip
+    endpointip2 = var.gwlb_endpoint_az2_ip
+    dst         = var.private_subnet_az1_cidr
+    gateway     = cidrhost(var.private_subnet_az2_cidr, 1)
   }
 }
 

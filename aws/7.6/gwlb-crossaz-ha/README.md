@@ -1,11 +1,11 @@
-# FortiGate GWLB Cross-AZ HA Deployment
+# FortiGate GWLB Cross-AZ Deployment
 
-This Terraform configuration deploys FortiGate instances in High Availability (HA) mode across two Availability Zones, integrated with existing Gateway Load Balancer (GWLB) infrastructure.
+This Terraform configuration deploys two independent FortiGate instances across two Availability Zones, integrated with existing Gateway Load Balancer (GWLB) infrastructure.
 
 ## Architecture
 
-- **Active-Passive HA**: FortiGate instances deployed in Active-Passive mode
-- **Cross-AZ**: Active instance in AZ1, Passive instance in AZ2
+- **Independent FortiGates**: Two standalone FortiGate instances (not in HA mode)
+- **Cross-AZ**: One instance in AZ1, another in AZ2
 - **GWLB Integration**: Uses existing GWLB endpoints for traffic inspection
 - **Existing Infrastructure**: Leverages existing VPC, subnets, security groups, and GWLB
 
@@ -22,10 +22,10 @@ This Terraform configuration deploys FortiGate instances in High Availability (H
 This deployment requires the following existing components:
 
 ### Security VPC (where FortiGates are deployed)
-- Public subnet (for FortiGate port1)
-- Private subnet (for FortiGate port2) 
-- HA Sync subnet (for FortiGate port3)
-- HA Management subnet (for FortiGate port4)
+- Public subnet in AZ1 (for FortiGate1 port1)
+- Private subnet in AZ1 (for FortiGate1 port2)
+- Public subnet in AZ2 (for FortiGate2 port1)
+- Private subnet in AZ2 (for FortiGate2 port2)
 
 ### Customer VPC (where GWLB endpoints are located)
 - GWLB endpoints in both AZs
@@ -65,6 +65,10 @@ private_security_group_id  = "sg-xxxxxxxxx"
 gwlb_endpoint_az1_ip       = "10.1.1.100"
 gwlb_endpoint_az2_ip       = "10.1.11.100"
 
+// Network CIDRs for routing configuration
+private_subnet_az1_cidr    = "10.1.1.0/24"
+private_subnet_az2_cidr    = "10.1.11.0/24"
+
 // FortiGate Configuration
 keyname      = "your-aws-key-pair"
 license_type = "payg"  // or "byol"
@@ -93,12 +97,12 @@ The FortiGates are configured with:
 
 ### Network Configuration
 - **DHCP mode** on all interfaces for automatic IP assignment
-- **Four network interfaces** per FortiGate (public, private, HA sync, HA mgmt)
-- **Elastic IPs** for management access on public and management interfaces
-- **Source/destination check disabled** on private and HA sync interfaces
+- **Two network interfaces** per FortiGate (public, private)
+- **Elastic IPs** for management access on public interfaces
+- **Source/destination check disabled** on private interfaces
 
 ### GWLB Integration
-- **Single VDOM mode** for simplified configuration and management
+- **Multi-VDOM mode** with separate traffic VDOM (same as gwlb-crossaz)
 - **GENEVE tunnels** to both GWLB endpoints (awsgeneve, awsgeneve2)
 - **HTTP probe response** on port2 for GWLB health checks
 - **Zone-based policies** for traffic inspection
