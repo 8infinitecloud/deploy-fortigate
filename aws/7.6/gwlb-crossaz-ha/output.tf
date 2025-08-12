@@ -31,11 +31,11 @@ output "FortiGate-Passive-HAMgmtIP" {
 }
 
 output "GWLB-Endpoint-AZ1-IP" {
-  value = data.aws_network_interface.gwlb_endpoint_az1.private_ip
+  value = var.gwlb_endpoint_az1_ip
 }
 
 output "GWLB-Endpoint-AZ2-IP" {
-  value = data.aws_network_interface.gwlb_endpoint_az2.private_ip
+  value = var.gwlb_endpoint_az2_ip
 }
 
 output "FortiGate-Active-Instance-ID" {

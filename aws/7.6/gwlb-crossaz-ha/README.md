@@ -21,19 +21,22 @@ This Terraform configuration deploys FortiGate instances in High Availability (H
 
 This deployment requires the following existing components:
 
-### Subnets (per AZ)
+### Security VPC (where FortiGates are deployed)
 - Public subnet (for FortiGate port1)
-- Private subnet (for FortiGate port2)
+- Private subnet (for FortiGate port2) 
 - HA Sync subnet (for FortiGate port3)
 - HA Management subnet (for FortiGate port4)
+
+### Customer VPC (where GWLB endpoints are located)
+- GWLB endpoints in both AZs
 
 ### Security Groups
 - Public security group (for port1 and port4)
 - Private security group (for port2 and port3)
 
-### GWLB
-- Existing Gateway Load Balancer
-- GWLB endpoints in both AZs
+### GWLB Infrastructure
+- Existing Gateway Load Balancer (in Security VPC)
+- GWLB endpoints (in Customer VPC) - you'll need the IP addresses
 
 ## Configuration
 
@@ -47,7 +50,8 @@ secret_key = "your-aws-secret-key"
 region     = "us-east-1"
 
 // Existing Infrastructure
-vpc_id                     = "vpc-xxxxxxxxx"
+security_vpc_id            = "vpc-xxxxxxxxx"  // Security VPC
+customer_vpc_id            = "vpc-yyyyyyyyy"  // Customer VPC
 public_subnet_az1_id       = "subnet-xxxxxxxxx"
 private_subnet_az1_id      = "subnet-xxxxxxxxx"
 hasync_subnet_az1_id       = "subnet-xxxxxxxxx"
@@ -58,6 +62,8 @@ hasync_subnet_az2_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az2_id       = "subnet-xxxxxxxxx"
 public_security_group_id   = "sg-xxxxxxxxx"
 private_security_group_id  = "sg-xxxxxxxxx"
+gwlb_endpoint_az1_ip       = "10.1.1.100"
+gwlb_endpoint_az2_ip       = "10.1.11.100"
 
 // FortiGate Configuration
 keyname      = "your-aws-key-pair"
@@ -126,4 +132,25 @@ This configuration is based on FortiGate 7.6.1 AMIs and supports both x86 and AR
 - The passive FortiGate will only become active during failover scenarios
 - HA synchronization occurs over the dedicated sync interface (port3)
 - Management access is available through both the public interface (port1) and management interface (port4)
-- GWLB endpoint IPs are automatically discovered and configured in routing tables
+- GWLB endpoint IPs must be provided as variables since they are from existing infrastructure
+
+## Finding GWLB Endpoint IPs
+
+The GWLB endpoints are located in the Customer VPC. You can find their IPs using:
+
+### AWS CLI:
+```bash
+# List GWLB endpoints in your customer VPC
+aws ec2 describe-vpc-endpoints \
+  --filters "Name=vpc-id,Values=vpc-customer-id" \
+          "Name=vpc-endpoint-type,Values=GatewayLoadBalancer"
+
+# Get network interfaces for a specific endpoint
+aws ec2 describe-network-interfaces \
+  --filters "Name=vpc-endpoint-id,Values=vpce-endpoint-id"
+```
+
+### AWS Console:
+1. Go to VPC > Endpoints
+2. Find your GWLB endpoints
+3. Click on each endpoint to see the network interface details and private IPs

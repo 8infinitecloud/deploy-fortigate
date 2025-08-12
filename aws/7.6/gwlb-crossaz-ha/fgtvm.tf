@@ -104,44 +104,7 @@ resource "aws_network_interface_sg_attachment" "passive_hamgmt_attachment" {
   network_interface_id = aws_network_interface.eth3_passive.id
 }
 
-// Data sources for GWLB endpoint IPs
-data "aws_network_interface" "gwlb_endpoint_az1" {
-  filter {
-    name   = "vpc-id"
-    values = [var.vpc_id]
-  }
-  filter {
-    name   = "status"
-    values = ["in-use"]
-  }
-  filter {
-    name   = "description"
-    values = ["*ELB*"]
-  }
-  filter {
-    name   = "availability-zone"
-    values = [var.az1]
-  }
-}
-
-data "aws_network_interface" "gwlb_endpoint_az2" {
-  filter {
-    name   = "vpc-id"
-    values = [var.vpc_id]
-  }
-  filter {
-    name   = "status"
-    values = ["in-use"]
-  }
-  filter {
-    name   = "description"
-    values = ["*ELB*"]
-  }
-  filter {
-    name   = "availability-zone"
-    values = [var.az2]
-  }
-}
+// GWLB endpoint IPs are provided as variables since GWLB infrastructure already exists
 
 // Active FortiGate Configuration
 data "template_file" "fgtconfig_active" {
@@ -161,8 +124,8 @@ data "template_file" "fgtconfig_active" {
     port4_mask       = "255.255.255.0"
     port4_gateway    = var.activeport4_gateway
     passive_peerip   = var.passiveport3
-    endpointip       = data.aws_network_interface.gwlb_endpoint_az1.private_ip
-    endpointip2      = data.aws_network_interface.gwlb_endpoint_az2.private_ip
+    endpointip       = var.gwlb_endpoint_az1_ip
+    endpointip2      = var.gwlb_endpoint_az2_ip
   }
 }
 
@@ -201,8 +164,8 @@ data "template_file" "fgtconfig_passive" {
     port4_mask       = "255.255.255.0"
     port4_gateway    = var.passiveport4_gateway
     active_peerip    = var.activeport3
-    endpointip       = data.aws_network_interface.gwlb_endpoint_az1.private_ip
-    endpointip2      = data.aws_network_interface.gwlb_endpoint_az2.private_ip
+    endpointip       = var.gwlb_endpoint_az1_ip
+    endpointip2      = var.gwlb_endpoint_az2_ip
   }
 }
 

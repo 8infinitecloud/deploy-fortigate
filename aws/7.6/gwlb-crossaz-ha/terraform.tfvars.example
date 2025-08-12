@@ -8,7 +8,8 @@ az1 = "us-east-1a"
 az2 = "us-east-1b"
 
 // Existing Infrastructure IDs
-vpc_id                     = "vpc-xxxxxxxxx"
+security_vpc_id            = "vpc-xxxxxxxxx"  // Security VPC where FortiGates are deployed
+customer_vpc_id            = "vpc-yyyyyyyyy"  // Customer VPC where GWLB endpoints are located
 public_subnet_az1_id       = "subnet-xxxxxxxxx"
 private_subnet_az1_id      = "subnet-xxxxxxxxx"
 hasync_subnet_az1_id       = "subnet-xxxxxxxxx"
@@ -19,7 +20,8 @@ hasync_subnet_az2_id       = "subnet-xxxxxxxxx"
 hamgmt_subnet_az2_id       = "subnet-xxxxxxxxx"
 public_security_group_id   = "sg-xxxxxxxxx"
 private_security_group_id  = "sg-xxxxxxxxx"
-gwlb_endpoint_service_name = "com.amazonaws.vpce.us-east-1.vpce-svc-xxxxxxxxx"
+gwlb_endpoint_az1_ip       = "10.1.1.100"
+gwlb_endpoint_az2_ip       = "10.1.11.100"
 
 // FortiGate Configuration
 keyname      = "your-aws-key-pair"

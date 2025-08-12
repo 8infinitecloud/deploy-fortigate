@@ -15,9 +15,14 @@ variable "az2" {
   default = "us-east-1b"
 }
 
-// Existing VPC ID
-variable "vpc_id" {
-  description = "Existing VPC ID where FortiGates will be deployed"
+// Existing VPC IDs
+variable "security_vpc_id" {
+  description = "Existing Security VPC ID where FortiGates will be deployed"
+  type        = string
+}
+
+variable "customer_vpc_id" {
+  description = "Existing Customer VPC ID where GWLB endpoints are located"
   type        = string
 }
 
@@ -73,9 +78,14 @@ variable "private_security_group_id" {
   type        = string
 }
 
-// Existing GWLB Endpoint IPs (will be discovered)
-variable "gwlb_endpoint_service_name" {
-  description = "GWLB endpoint service name"
+// Existing GWLB Endpoint IPs
+variable "gwlb_endpoint_az1_ip" {
+  description = "GWLB endpoint IP in AZ1"
+  type        = string
+}
+
+variable "gwlb_endpoint_az2_ip" {
+  description = "GWLB endpoint IP in AZ2"
   type        = string
 }
 
