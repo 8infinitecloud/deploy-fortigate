@@ -63,7 +63,7 @@ variable "csprivatecidraz2" {
 // License Type to create FortiGate-VM
 // Provide the license type for FortiGate-VM Instances, either byol or payg.
 variable "license_type" {
-  default = "payg"
+  default = "byol" #AQUI
 }
 
 // BYOL License format to create FortiGate-VM
